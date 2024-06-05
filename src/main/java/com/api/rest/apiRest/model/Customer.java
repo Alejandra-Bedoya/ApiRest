@@ -9,17 +9,24 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Customer")
+@Table(name = "Customers")
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "customer_id", nullable = false)
+    private Long customerId;
 
-    private String nameCustomer;
-    private  Integer phoneCustomer;
-    private String addressCustomer;
-    private String emailCustomer;
+    @Column(name = "customer_name", nullable = false)
+    private String customerName;
 
+    @Column(name = "customer_email", nullable = false)
+    private String customerEmail;
 
-    }
+    @Column(name = "customer_phone", nullable = false)
+    private String customerPhone;
+
+    @Column(name = "customer_address", nullable = false)
+    private String customerAddress;
+
+}
