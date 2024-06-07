@@ -30,11 +30,11 @@ public class TouristPackage {
     @Column(name = "package_description", nullable = false)
     private String packageDescription;
 
-    @Column(name = "departure_date", nullable = false)
+    @Column(name = "departure_date", nullable = false) // Fecha de salida del viaje
     private LocalDate departureDate;
 
     @Column(name = "return_date", nullable = false)
-    private LocalDate returnDate;
+    private LocalDate returnDate;  // Fecha de regreso del viaje
 
     @Column(name = "duration_days", nullable = false)
     private Integer durationDays;
@@ -42,7 +42,7 @@ public class TouristPackage {
     @Column(name = "package_price", nullable = false)
     private Double packagePrice;
 
-    @Column(name = "available_spots", nullable = false)
+    @Column(name = "available_spots", nullable = false) //lugares disponibles
     private Integer availableSpots;
 
 }

@@ -3,6 +3,8 @@ package com.api.rest.apiRest.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Setter
@@ -13,39 +15,33 @@ import java.util.Date;
 @Entity
 @Table(name = "Bookings")
 public class Booking {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "booking_id", nullable = false)
+    private Long bookingId;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "booking_date", nullable = false)
-    private Date bookingDate;
+    private LocalDateTime bookingDate; // YYYY-MM-DD
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "departure_date", nullable = false)
-    private Date departureDate; // Fecha de salida del viaje
+    //@Column(name = "booking_payment", nullable = false)
+    //private Double bookingPayment;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "return_date", nullable = false)
-    private Date returnDate; // Fecha de regreso del viaje
-
-    private Integer quantity;
-    private Double total;
-
-    @Column(name = "reservation_payment")
-    private Double reservationPayment;
-    //private Payment payment;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-
-    @ManyToOne
-    @JoinColumn(name = "package_id")
+    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY )
+    @JoinColumn(name = "fk_package_id", nullable = false)
     private TouristPackage touristPackage;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_employee_id", nullable = false)
     private Employee employee;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_customer_id", nullable = false)
+    private Customer customer;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_payment_id", nullable = false)
+    private Payment payment;
+
 }
+
+
