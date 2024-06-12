@@ -5,7 +5,7 @@ import com.api.rest.apiRest.model.TouristPackage;
 import java.util.List;
 import java.util.Optional;
 
-public interface TouristPackageService {
+public interface PaymentService {
 
     Optional<TouristPackage> getById(Long packageId);
 
@@ -16,5 +16,4 @@ public interface TouristPackageService {
     void delete(Long packageId);
 
     TouristPackage update(TouristPackage touristPackage);
-
 }

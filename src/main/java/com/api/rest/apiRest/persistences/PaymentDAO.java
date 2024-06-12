@@ -1,13 +1,13 @@
-package com.api.rest.apiRest.services;
+package com.api.rest.apiRest.persistences;
 
 import com.api.rest.apiRest.model.TouristPackage;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface TouristPackageService {
+public interface PaymentDAO {
 
-    Optional<TouristPackage> getById(Long packageId);
+    Optional<TouristPackage> getById(Long paymentId);
 
     List<TouristPackage> getAll();
 
@@ -15,6 +15,6 @@ public interface TouristPackageService {
 
     void delete(Long packageId);
 
-    TouristPackage update(TouristPackage touristPackage);
+    void update(TouristPackage touristPackage);
 
 }

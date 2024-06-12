@@ -31,6 +31,10 @@ public class Booking {
     private TouristPackage touristPackage;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_payment_id", nullable = false)
+    private Payment payment;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_employee_id", nullable = false)
     private Employee employee;
 
@@ -38,9 +42,7 @@ public class Booking {
     @JoinColumn(name = "fk_customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_payment_id", nullable = false)
-    private Payment payment;
+
 
 }
 

@@ -36,7 +36,8 @@ public class TouristPackageImplementService implements TouristPackageService {
     }
 
     @Override
-    public void update(TouristPackage touristPackage) {
+    public TouristPackage update(TouristPackage touristPackage) {
         touristPackageDAO.update(touristPackage);
+        return touristPackage;
     }
 }
