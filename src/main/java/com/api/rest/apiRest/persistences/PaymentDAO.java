@@ -1,5 +1,6 @@
 package com.api.rest.apiRest.persistences;
 
+import com.api.rest.apiRest.model.Payment;
 import com.api.rest.apiRest.model.TouristPackage;
 
 import java.util.List;
@@ -7,14 +8,15 @@ import java.util.Optional;
 
 public interface PaymentDAO {
 
-    Optional<TouristPackage> getById(Long paymentId);
+    Optional<Payment> getById(Long paymentId);
 
-    List<TouristPackage> getAll();
+    List<Payment> getAll();
 
-    void save(TouristPackage touristPackage);
+    void save(Payment payment);
 
-    void delete(Long packageId);
+    void delete(Long paymentId);
 
-    void update(TouristPackage touristPackage);
+    void update(Payment payment);
+
 
 }

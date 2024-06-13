@@ -1,19 +1,19 @@
 package com.api.rest.apiRest.services;
 
-import com.api.rest.apiRest.model.TouristPackage;
+import com.api.rest.apiRest.model.Payment;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PaymentService {
 
-    Optional<TouristPackage> getById(Long packageId);
+    Optional<Payment> getById(Long paymentId);
 
-    List<TouristPackage> getAll();
+    List<Payment> getAll();
 
-    void save(TouristPackage touristPackage);
+    void save(Payment payment);
 
-    void delete(Long packageId);
+    void delete(Long paymentId);
 
-    TouristPackage update(TouristPackage touristPackage);
+    void update(Payment payment);
 }

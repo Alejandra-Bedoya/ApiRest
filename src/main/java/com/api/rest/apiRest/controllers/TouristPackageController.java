@@ -41,7 +41,6 @@ public class TouristPackageController {
                         .availableSpots(touristPackage.getAvailableSpots())
                         .build()
                 ).toList();
-
         return ResponseEntity.ok(groupPackages);
     }
 
@@ -72,8 +71,17 @@ public class TouristPackageController {
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody TouristPackage touristPackage) {
         try {
+
+            Optional<TouristPackage> validTP = touristPackageService.getById(touristPackage.getPackageId());
+
+            if (validTP.isEmpty()) {
+                System.out.println("El ID: " + touristPackage.getPackageId() + " no existe");
+                throw new EntityNotFoundException();
+            }
+
             TouristPackage updatedPackage = touristPackageService.update(touristPackage);
             return ResponseEntity.ok(updatedPackage);
+
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Package not found");
         } catch (DataIntegrityViolationException e) {
@@ -84,10 +92,10 @@ public class TouristPackageController {
     }
 
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestBody TouristPackage touristPackage) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-            touristPackageService.delete(touristPackage.getPackageId());
+            touristPackageService.delete(id);
             return ResponseEntity.ok("Package deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting package");

@@ -1,6 +1,5 @@
 package com.api.rest.apiRest.controllers.dto;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class paymentDTO {
+public class PaymentDTO {
 
     private Long paymentId;
 

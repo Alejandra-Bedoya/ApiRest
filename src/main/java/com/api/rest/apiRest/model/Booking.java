@@ -3,9 +3,7 @@ package com.api.rest.apiRest.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Setter
 @Getter
@@ -23,9 +21,6 @@ public class Booking {
     @Column(name = "booking_date", nullable = false)
     private LocalDateTime bookingDate; // YYYY-MM-DD
 
-    //@Column(name = "booking_payment", nullable = false)
-    //private Double bookingPayment;
-
     @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY )
     @JoinColumn(name = "fk_package_id", nullable = false)
     private TouristPackage touristPackage;
@@ -41,8 +36,6 @@ public class Booking {
     @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_customer_id", nullable = false)
     private Customer customer;
-
-
 
 }
 

@@ -26,17 +26,14 @@ public class TouristPackageImplement implements TouristPackageDAO {
     }
 
     @Override
-    public void save(TouristPackage touristPackage) {
-        touristPackageRepository.save(touristPackage);
+    public void save(TouristPackage touristPackage) { touristPackageRepository.save(touristPackage);
     }
 
     @Override
-    public void delete(Long packageId) {
-        touristPackageRepository.deleteById(packageId);
+    public void delete(Long packageId) { touristPackageRepository.deleteById(packageId);
     }
 
     @Override
-    public void update(TouristPackage touristPackage) {
-        touristPackageRepository.save(touristPackage);
+    public void update(TouristPackage touristPackage) { touristPackageRepository.save(touristPackage);
     }
 }
