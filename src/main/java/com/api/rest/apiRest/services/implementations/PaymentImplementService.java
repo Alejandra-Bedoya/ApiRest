@@ -1,7 +1,6 @@
 package com.api.rest.apiRest.services.implementations;
 
 import com.api.rest.apiRest.model.Payment;
-import com.api.rest.apiRest.model.TouristPackage;
 import com.api.rest.apiRest.persistences.PaymentDAO;
 import com.api.rest.apiRest.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +32,9 @@ public class PaymentImplementService implements PaymentService {
     public void delete(Long paymentId) { paymentDAO.delete(paymentId); }
 
     @Override
-    public void update(Payment payment) {
+    public Payment update(Payment payment) {
         paymentDAO.update(payment);
+        return payment;
     }
 
 

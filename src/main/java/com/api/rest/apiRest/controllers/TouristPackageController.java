@@ -27,7 +27,7 @@ public class TouristPackageController {
     @GetMapping("/getAll")
     public ResponseEntity<?> findAllPackage() {
 
-        List<TouristPackageDTO> groupPackages = touristPackageService.getAll()
+        List<TouristPackageDTO> Packages = touristPackageService.getAll()
                 .stream()
                 .map(touristPackage -> TouristPackageDTO.builder()
                         .packageId(touristPackage.getPackageId())
@@ -41,7 +41,7 @@ public class TouristPackageController {
                         .availableSpots(touristPackage.getAvailableSpots())
                         .build()
                 ).toList();
-        return ResponseEntity.ok(groupPackages);
+        return ResponseEntity.ok(Packages);
     }
 
     @GetMapping("/getById/{id}")
@@ -63,9 +63,47 @@ public class TouristPackageController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody TouristPackage touristPackage) throws URISyntaxException {
-        touristPackageService.save(touristPackage);
-        return ResponseEntity.created(new URI("/touristPackage/getById/" + touristPackage.getPackageId())).build();
+    public ResponseEntity<?> save(@RequestBody TouristPackageDTO touristPackageDTO) {
+        try {
+            // Convertir DTO a entidad
+            TouristPackage touristPackage = TouristPackage.builder()
+                    .packageCategory(touristPackageDTO.getPackageCategory())
+                    .destinationPlace(touristPackageDTO.getDestinationPlace())
+                    .packageDescription(touristPackageDTO.getPackageDescription())
+                    .departureDate(touristPackageDTO.getDepartureDate())
+                    .returnDate(touristPackageDTO.getReturnDate())
+                    .durationDays(touristPackageDTO.getDurationDays())
+                    .packagePrice(touristPackageDTO.getPackagePrice())
+                    .availableSpots(touristPackageDTO.getAvailableSpots())
+                    .build();
+
+            // Guardar la entidad
+            touristPackageService.save(touristPackage);
+
+            // Convertir entidad guardada a DTO
+            TouristPackageDTO savedTouristPackageDTO = TouristPackageDTO.builder()
+                    .packageId(touristPackage.getPackageId())
+                    .packageCategory(touristPackage.getPackageCategory())
+                    .destinationPlace(touristPackage.getDestinationPlace())
+                    .packageDescription(touristPackage.getPackageDescription())
+                    .departureDate(touristPackage.getDepartureDate())
+                    .returnDate(touristPackage.getReturnDate())
+                    .durationDays(touristPackage.getDurationDays())
+                    .packagePrice(touristPackage.getPackagePrice())
+                    .availableSpots(touristPackage.getAvailableSpots())
+                    .build();
+
+            // Crear URI del nuevo recurso
+            URI location = new URI("/touristPackage/getById/" + savedTouristPackageDTO.getPackageId());
+
+            // Devolver respuesta con la URI y el DTO guardado
+            return ResponseEntity.created(location).body(savedTouristPackageDTO);
+
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving tourist package");
+        }
     }
 
     @PutMapping("/update")

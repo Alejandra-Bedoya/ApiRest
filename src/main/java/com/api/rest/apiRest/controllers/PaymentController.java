@@ -26,9 +26,8 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> findAllPayment() {
-
-        List<PaymentDTO> groupPayments = paymentService.getAll()
+    public ResponseEntity<?> findAllPayments() {
+        List<PaymentDTO> payments = paymentService.getAll()
                 .stream()
                 .map(payment -> PaymentDTO.builder()
                         .paymentId(payment.getPaymentId())
@@ -37,17 +36,14 @@ public class PaymentController {
                         .paymentMethod(payment.getPaymentMethod())
                         .build()
                 ).toList();
-        return ResponseEntity.ok(groupPayments);
+        return ResponseEntity.ok(payments);
     }
-
-
 
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-
         Optional<Payment> onePayment = paymentService.getById(id);
 
-        if (onePayment.isEmpty()){
+        if (onePayment.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -57,32 +53,64 @@ public class PaymentController {
                 .build();
 
         return ResponseEntity.ok(paymentDTO);
-
     }
+
+
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody Payment payment) throws URISyntaxException {
-        paymentService.save(payment);
-        return ResponseEntity.created(new URI("/payment/getById/" + payment.getPaymentId())).build();
+    public ResponseEntity<?> save(@RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
+        try {
+            Payment payment = Payment.builder()
+                    .paymentId(paymentDTO.getPaymentId())
+                    .paymentAmount(paymentDTO.getPaymentAmount())
+                    .paymentDate(paymentDTO.getPaymentDate())
+                    .paymentMethod(paymentDTO.getPaymentMethod())
+                    .build();
+
+            paymentService.save(payment);
+            PaymentDTO savedPaymentDTO = PaymentDTO.builder()
+                    .paymentId(payment.getPaymentId())
+                    .paymentAmount(payment.getPaymentAmount())
+                    .paymentDate(payment.getPaymentDate())
+                    .paymentMethod(payment.getPaymentMethod())
+                    .build();
+
+            return ResponseEntity.created(new URI("/payment/getById/" + payment.getPaymentId())).body(savedPaymentDTO);
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving payment");
+        }
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody Payment payment) {
         try {
-            paymentService.update(payment);
-            return ResponseEntity.ok("Todo bien");
+
+            Optional<Payment> validPayment = paymentService.getById(payment.getPaymentId());
+
+            if (validPayment.isEmpty()) {
+                System.out.println("El ID " + payment.getPaymentId() + " no existe");
+                throw new EntityNotFoundException();
+            }
+
+            Payment updatedPayment = paymentService.update(payment);
+            return  ResponseEntity.ok(updatedPayment);
+
+
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Payment not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Package not found");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating payment");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating package");
         }
     }
 
+
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestBody Payment payment) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-            paymentService.delete(payment.getPaymentId());
+            paymentService.delete(id);
             return ResponseEntity.ok("Payment deleted successfully");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Payment not found");

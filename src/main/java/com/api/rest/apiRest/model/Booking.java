@@ -37,6 +37,11 @@ public class Booking {
     @JoinColumn(name = "fk_customer_id", nullable = false)
     private Customer customer;
 
+    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_name", nullable = false)
+    private Customer customerName;
+
+
 }
 
 
