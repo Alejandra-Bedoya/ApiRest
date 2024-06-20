@@ -1,8 +1,7 @@
 package com.api.rest.apiRest.controllers;
 
 import com.api.rest.apiRest.controllers.dto.BookingDTO;
-import com.api.rest.apiRest.model.Booking;
-import com.api.rest.apiRest.model.Payment;
+import com.api.rest.apiRest.model.*;
 import com.api.rest.apiRest.services.BookingService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +30,10 @@ public class BookingController {
 
                         .bookingId(booking.getBookingId())
                         .bookingDate(booking.getBookingDate())
-                        .fk_package_id(booking.getTouristPackage().getPackageId())
-                        .fk_payment_id(booking.getPayment().getPaymentId())
-                        .fk_employee_id(booking.getEmployee().getEmployeeId())
-                        .fk_customer_id(booking.getCustomer().getCustomerId())
-                        .customerName(booking.getCustomer().getCustomerName())
+                        .fkPackageId(booking.getTouristPackage().getPackageId())
+                        .fkPaymentId(booking.getPayment().getPaymentId())
+                        .fkEmployeeId(booking.getEmployee().getEmployeeId())
+                        .fkCustomerId(booking.getCustomer().getCustomerId())
                         .build()
                 ).toList();
         return ResponseEntity.ok(bookings);
@@ -53,21 +51,43 @@ public class BookingController {
         BookingDTO bookingDTO = BookingDTO.builder()
                 .bookingId(booking.getBookingId())
                 .bookingDate(booking.getBookingDate())
+                .fkPackageId(booking.getTouristPackage().getPackageId())
+                .fkPaymentId(booking.getPayment().getPaymentId())
+                .fkEmployeeId(booking.getEmployee().getEmployeeId())
+                .fkCustomerId(booking.getCustomer().getCustomerId())
                 .build();
 
         return ResponseEntity.ok(bookingDTO);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody Booking booking) throws URISyntaxException {
-        bookingService.save(booking);
-        return ResponseEntity.created(new URI("/booking/getById/" + booking.getBookingId())).build();
+    public ResponseEntity<?> save(@RequestBody BookingDTO bookingDTO) throws URISyntaxException {
+        try {
+            Booking booking = new Booking();
+            booking.setBookingDate(bookingDTO.getBookingDate());
+
+            // Loading related entities
+            booking.setTouristPackage(bookingService.findTouristPackageById(bookingDTO.getFkPackageId()));
+            booking.setPayment(bookingService.findPaymentById(bookingDTO.getFkPaymentId()));
+            booking.setEmployee(bookingService.findEmployeeById(bookingDTO.getFkEmployeeId()));
+            booking.setCustomer(bookingService.findCustomerById(bookingDTO.getFkCustomerId()));
+
+            Booking savedBooking = bookingService.save(booking);
+            return ResponseEntity.created(new URI("/booking/getById/" + savedBooking.getBookingId())).build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Related entity not found");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving booking");
+        }
     }
+
+
 
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody Booking booking) {
         try {
-
             Optional<Booking> validBooking = bookingService.getById(booking.getBookingId());
 
             if (validBooking.isEmpty()) {
@@ -76,17 +96,26 @@ public class BookingController {
             }
 
             Booking updatedBooking = bookingService.update(booking);
-            return  ResponseEntity.ok(updatedBooking);
+            BookingDTO bookingDTO = BookingDTO.builder()
+                    .bookingId(updatedBooking.getBookingId())
+                    .bookingDate(updatedBooking.getBookingDate())
+                    .fkPackageId(updatedBooking.getTouristPackage().getPackageId())
+                    .fkPaymentId(updatedBooking.getPayment().getPaymentId())
+                    .fkEmployeeId(updatedBooking.getEmployee().getEmployeeId())
+                    .fkCustomerId(updatedBooking.getCustomer().getCustomerId())
+                    .build();
 
+            return ResponseEntity.ok(bookingDTO);
 
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Package not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating package");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating booking");
         }
     }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {

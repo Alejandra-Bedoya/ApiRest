@@ -107,7 +107,7 @@ public class PaymentController {
     }
 
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             paymentService.delete(id);

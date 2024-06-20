@@ -1,6 +1,6 @@
 package com.api.rest.apiRest.services.implementations;
 
-import com.api.rest.apiRest.model.Booking;
+import com.api.rest.apiRest.model.*;
 import com.api.rest.apiRest.persistences.BookingDAO;
 import com.api.rest.apiRest.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,9 @@ public class BookingImplementService implements BookingService {
     }
 
     @Override
-    public void save(Booking booking) {
+    public Booking save(Booking booking) {
         bookingDAO.save(booking);
+        return booking;
     }
 
     @Override
@@ -39,5 +40,25 @@ public class BookingImplementService implements BookingService {
     public Booking update(Booking booking) {
         bookingDAO.update(booking);
         return booking;
+    }
+
+    @Override
+    public TouristPackage findTouristPackageById(Long fkPackageId) {
+        return bookingDAO.findTouristPackageById(fkPackageId);
+    }
+
+    @Override
+    public Payment findPaymentById(Long fkPaymentId) {
+        return bookingDAO.findPaymentById(fkPaymentId);
+    }
+
+    @Override
+    public Employee findEmployeeById(Long fkEmployeeId) {
+        return bookingDAO.findEmployeeById(fkEmployeeId);
+    }
+
+    @Override
+    public Customer findCustomerById(Long fkCustomerId) {
+        return bookingDAO.findCustomerById(fkCustomerId);
     }
 }

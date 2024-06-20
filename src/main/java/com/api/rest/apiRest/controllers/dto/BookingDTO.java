@@ -1,14 +1,8 @@
 package com.api.rest.apiRest.controllers.dto;
-
-import com.api.rest.apiRest.model.Customer;
-import com.api.rest.apiRest.model.Employee;
-import com.api.rest.apiRest.model.Payment;
-import com.api.rest.apiRest.model.TouristPackage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
 @Data
@@ -21,14 +15,12 @@ public class BookingDTO {
 
     private LocalDateTime bookingDate;
 
-    private Long  fk_package_id;
+    private Long  fkPackageId;
 
-    private Long fk_payment_id;
+    private Long fkPaymentId;
 
-    private Long fk_employee_id;
+    private Long fkEmployeeId;
 
-    private Long fk_customer_id;
-
-    private String customerName;
+    private Long fkCustomerId;
 
 }
