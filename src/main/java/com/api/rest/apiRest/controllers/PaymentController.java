@@ -3,7 +3,6 @@ package com.api.rest.apiRest.controllers;
 import com.api.rest.apiRest.controllers.dto.PaymentDTO;
 import com.api.rest.apiRest.controllers.dto.TouristPackageDTO;
 import com.api.rest.apiRest.model.Payment;
-import com.api.rest.apiRest.model.TouristPackage;
 import com.api.rest.apiRest.services.PaymentService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +49,9 @@ public class PaymentController {
         Payment payment = onePayment.get();
         PaymentDTO paymentDTO = PaymentDTO.builder()
                 .paymentId(payment.getPaymentId())
+                .paymentAmount(payment.getPaymentAmount())
+                .paymentDate(payment.getPaymentDate())
+                .paymentMethod(payment.getPaymentMethod())
                 .build();
 
         return ResponseEntity.ok(paymentDTO);

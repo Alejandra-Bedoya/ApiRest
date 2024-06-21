@@ -1,10 +1,8 @@
 package com.api.rest.apiRest.persistences.implementations;
 
 import com.api.rest.apiRest.model.Payment;
-import com.api.rest.apiRest.model.TouristPackage;
 import com.api.rest.apiRest.persistences.PaymentDAO;
 import com.api.rest.apiRest.repository.PaymentRepository;
-import com.api.rest.apiRest.repository.TouristPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class PaymentImplement implements PaymentDAO {
+public class PaymentImplementDAO implements PaymentDAO {
     @Autowired
     private PaymentRepository paymentRepository;
 

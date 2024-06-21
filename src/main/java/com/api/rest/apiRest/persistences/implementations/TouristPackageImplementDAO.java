@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class TouristPackageImplement implements TouristPackageDAO {
+public class TouristPackageImplementDAO implements TouristPackageDAO {
 
     @Autowired
     private TouristPackageRepository touristPackageRepository;

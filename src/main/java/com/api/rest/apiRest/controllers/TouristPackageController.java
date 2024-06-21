@@ -56,7 +56,14 @@ public class TouristPackageController {
         TouristPackage touristPackage = onePackage.get();
         TouristPackageDTO touristPackageDTO = TouristPackageDTO.builder()
                 .packageId(touristPackage.getPackageId())
+                .packageCategory(touristPackage.getPackageCategory())
                 .destinationPlace(touristPackage.getDestinationPlace())
+                .packageDescription(touristPackage.getPackageDescription())
+                .departureDate(touristPackage.getDepartureDate())
+                .returnDate(touristPackage.getReturnDate())
+                .durationDays(touristPackage.getDurationDays())
+                .packagePrice(touristPackage.getPackagePrice())
+                .availableSpots(touristPackage.getAvailableSpots())
                 .build();
 
         return ResponseEntity.ok(touristPackageDTO);

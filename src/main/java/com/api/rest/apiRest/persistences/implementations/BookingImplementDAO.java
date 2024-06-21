@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class BookingImplement implements BookingDAO {
+public class BookingImplementDAO implements BookingDAO {
 
     @Autowired
     private BookingRepository bookingRepository;
