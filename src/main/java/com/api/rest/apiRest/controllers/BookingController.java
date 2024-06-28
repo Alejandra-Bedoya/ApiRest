@@ -34,6 +34,8 @@ public class BookingController {
                         .fkPaymentId(booking.getPayment().getPaymentId())
                         .fkEmployeeId(booking.getEmployee().getEmployeeId())
                         .fkCustomerId(booking.getCustomer().getCustomerId())
+                        .customerName(booking.getCustomerName())
+                        .destinationPlace(booking.getDestinationPlace())
                         .build()
                 ).toList();
         return ResponseEntity.ok(bookings);
@@ -55,6 +57,8 @@ public class BookingController {
                 .fkPaymentId(booking.getPayment().getPaymentId())
                 .fkEmployeeId(booking.getEmployee().getEmployeeId())
                 .fkCustomerId(booking.getCustomer().getCustomerId())
+                .customerName(booking.getCustomerName())
+                .destinationPlace(booking.getDestinationPlace())
                 .build();
 
         return ResponseEntity.ok(bookingDTO);
@@ -84,37 +88,50 @@ public class BookingController {
     }
 
 
-
     @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody Booking booking) {
+    public ResponseEntity<?> update(@RequestBody BookingDTO bookingDTO) {
         try {
-            Optional<Booking> validBooking = bookingService.getById(booking.getBookingId());
+            Optional<Booking> validBooking = bookingService.getById(bookingDTO.getBookingId());
 
             if (validBooking.isEmpty()) {
-                System.out.println("El ID " + booking.getBookingId() + " no existe");
+                System.out.println("El ID " + bookingDTO.getBookingId() + " no existe");
                 throw new EntityNotFoundException();
             }
 
+            Booking booking = validBooking.get();
+            booking.setBookingDate(bookingDTO.getBookingDate());
+
+            // Loading related entities
+            booking.setTouristPackage(bookingService.findTouristPackageById(bookingDTO.getFkPackageId()));
+            booking.setPayment(bookingService.findPaymentById(bookingDTO.getFkPaymentId()));
+            booking.setEmployee(bookingService.findEmployeeById(bookingDTO.getFkEmployeeId()));
+            booking.setCustomer(bookingService.findCustomerById(bookingDTO.getFkCustomerId()));
+
             Booking updatedBooking = bookingService.update(booking);
-            BookingDTO bookingDTO = BookingDTO.builder()
+
+            BookingDTO updatedBookingDTO = BookingDTO.builder()
                     .bookingId(updatedBooking.getBookingId())
                     .bookingDate(updatedBooking.getBookingDate())
                     .fkPackageId(updatedBooking.getTouristPackage().getPackageId())
                     .fkPaymentId(updatedBooking.getPayment().getPaymentId())
                     .fkEmployeeId(updatedBooking.getEmployee().getEmployeeId())
                     .fkCustomerId(updatedBooking.getCustomer().getCustomerId())
+                    .customerName(updatedBooking.getCustomerName())
+                    .destinationPlace(updatedBooking.getDestinationPlace())
                     .build();
 
-            return ResponseEntity.ok(bookingDTO);
+            return ResponseEntity.ok(updatedBookingDTO);
 
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
         } catch (DataIntegrityViolationException e) {
+            System.out.println("Dentro del error" + bookingDTO.getBookingDate());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating booking");
         }
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {

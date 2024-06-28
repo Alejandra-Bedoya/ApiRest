@@ -38,6 +38,7 @@ public class BookingImplementService implements BookingService {
 
     @Override
     public Booking update(Booking booking) {
+        System.out.println("dentro del servicio" + booking);
         bookingDAO.update(booking);
         return booking;
     }
@@ -61,4 +62,5 @@ public class BookingImplementService implements BookingService {
     public Customer findCustomerById(Long fkCustomerId) {
         return bookingDAO.findCustomerById(fkCustomerId);
     }
+
 }

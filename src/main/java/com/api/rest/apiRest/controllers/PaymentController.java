@@ -62,7 +62,6 @@ public class PaymentController {
     public ResponseEntity<?> save(@RequestBody PaymentDTO paymentDTO) throws URISyntaxException {
         try {
             Payment payment = Payment.builder()
-                    .paymentId(paymentDTO.getPaymentId())
                     .paymentAmount(paymentDTO.getPaymentAmount())
                     .paymentDate(paymentDTO.getPaymentDate())
                     .paymentMethod(paymentDTO.getPaymentMethod())

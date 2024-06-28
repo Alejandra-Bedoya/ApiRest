@@ -20,13 +20,14 @@ public class Customer {
     @Column(name = "customer_name", nullable = false)
     private String customerName;
 
-    @Column(name = "customer_email", nullable = false)
-    private String customerEmail;
-
     @Column(name = "customer_phone", nullable = false)
     private String customerPhone;
+
+    @Column(name = "customer_email", nullable = false)
+    private String customerEmail;
 
     @Column(name = "customer_address", nullable = false)
     private String customerAddress;
 
 }
+

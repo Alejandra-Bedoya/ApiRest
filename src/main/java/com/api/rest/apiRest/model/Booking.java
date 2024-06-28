@@ -38,6 +38,17 @@ public class Booking {
     @JoinColumn(name = "fk_customer_id", nullable = false)
     private Customer customer;
 
+    @Transient
+    private String customerName;
+
+    @Transient
+    private String destinationPlace;
+
+    @PostLoad
+    private void setTransientFields() {
+        this.customerName = customer.getCustomerName();
+        this.destinationPlace = touristPackage.getDestinationPlace();
+    }
 }
 
 

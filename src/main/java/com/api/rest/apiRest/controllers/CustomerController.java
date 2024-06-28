@@ -115,8 +115,8 @@ public class CustomerController {
             CustomerDTO updatedCustomerDTO = CustomerDTO.builder()
                     .customerId(updatedCustomer.getCustomerId())
                     .customerName(updatedCustomer.getCustomerName())
-                    .customerEmail(updatedCustomer.getCustomerEmail())
                     .customerPhone(updatedCustomer.getCustomerPhone())
+                    .customerEmail(updatedCustomer.getCustomerEmail())
                     .customerAddress(updatedCustomer.getCustomerAddress())
                     .build();
 

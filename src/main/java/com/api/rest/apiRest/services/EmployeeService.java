@@ -1,10 +1,10 @@
-package com.api.rest.apiRest.persistences;
+package com.api.rest.apiRest.services;
 
 import com.api.rest.apiRest.model.Employee;
 import java.util.List;
 import java.util.Optional;
 
-public interface EmployeeDAO {
+public interface EmployeeService {
 
     Optional<Employee> getById(Long employeeId);
 
@@ -14,5 +14,5 @@ public interface EmployeeDAO {
 
     void delete(Long employeeId);
 
-    void update(Employee employee);
+    Employee update(Employee employee);
 }

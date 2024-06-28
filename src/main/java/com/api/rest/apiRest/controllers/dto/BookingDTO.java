@@ -23,4 +23,8 @@ public class BookingDTO {
 
     private Long fkCustomerId;
 
+    private  String customerName;
+
+    private String destinationPlace;
+
 }

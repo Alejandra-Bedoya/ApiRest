@@ -16,19 +16,20 @@ public class Employee {
     @Column(name = "employee_id", nullable = false)
     private Long employeeId;
 
-    @Column(name = "employee_email", nullable = false)
-    private String employeeEmail;
-
     @Column(name = "employee_name", nullable = false)
     private String employeeName;
+
+    @Column(name = "employee_position", nullable = false)
+    private String employeePosition;
 
     @Column(name = "employee_phone", nullable = false)
     private String employeePhone;
 
+    @Column(name = "employee_email", nullable = false)
+    private String employeeEmail;
+
     @Column(name = "employee_address", nullable = false)
     private String employeeAddress;
 
-    @Column(name = "employee_position", nullable = false)
-    private String employeePosition;
 
 }

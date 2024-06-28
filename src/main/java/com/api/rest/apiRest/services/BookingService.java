@@ -24,4 +24,5 @@ public interface BookingService {
     Employee findEmployeeById(Long fkEmployeeId);
 
     Customer findCustomerById(Long fkCustomerId);
+
 }

@@ -17,6 +17,8 @@ public interface BookingDAO {
 
     void update(Booking booking);
 
+    // Métodos para obtener entidades relacionadas
+
     TouristPackage findTouristPackageById(Long fkPackageId);
 
     Payment findPaymentById(Long fkPaymentId);
@@ -25,10 +27,5 @@ public interface BookingDAO {
 
     Customer findCustomerById(Long fkCustomerId);
 
-    // Métodos para obtener entidades relacionadas
-   // TouristPackage findTouristPackageById(Long fkPackageId);
-    //Payment findPaymentById(Long fkPaymentId);
-    //Employee findEmployeeById(Long fkEmployeeId);
-    //Customer findCustomerById(Long fkCustomerId);
 
 }

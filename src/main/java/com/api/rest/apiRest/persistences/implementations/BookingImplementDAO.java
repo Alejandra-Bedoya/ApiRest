@@ -28,6 +28,8 @@ public class BookingImplementDAO implements BookingDAO {
     @Autowired
     private CustomerRepository customerRepository;
 
+
+
     @Override
     public Optional<Booking> getById(Long bookingId) {
         return bookingRepository.findById(bookingId);
@@ -50,6 +52,7 @@ public class BookingImplementDAO implements BookingDAO {
 
     @Override
     public void update(Booking booking) {
+        System.out.println("dentro del DAO" + booking);
         bookingRepository.save(booking);
     }
 
@@ -76,5 +79,7 @@ public class BookingImplementDAO implements BookingDAO {
         return customerRepository.findById(fkCustomerId)
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
     }
+
+
 }
 
