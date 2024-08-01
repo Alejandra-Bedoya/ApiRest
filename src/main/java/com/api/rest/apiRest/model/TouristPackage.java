@@ -43,4 +43,7 @@ public class TouristPackage {
     @Column(name = "available_spots", nullable = false) //lugares disponibles
     private Integer availableSpots;
 
+    @Column(name = "IMAGE", nullable = false)
+    private String image;
+
 }

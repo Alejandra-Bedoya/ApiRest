@@ -24,6 +24,7 @@ public class TouristPackageController {
     @Autowired
     private TouristPackageService touristPackageService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/getAll")
     public ResponseEntity<?> findAllPackage() {
 
@@ -39,11 +40,13 @@ public class TouristPackageController {
                         .durationDays(touristPackage.getDurationDays())
                         .packagePrice(touristPackage.getPackagePrice())
                         .availableSpots(touristPackage.getAvailableSpots())
+                        .image(touristPackage.getImage())
                         .build()
                 ).toList();
         return ResponseEntity.ok(Packages);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
@@ -64,10 +67,12 @@ public class TouristPackageController {
                 .durationDays(touristPackage.getDurationDays())
                 .packagePrice(touristPackage.getPackagePrice())
                 .availableSpots(touristPackage.getAvailableSpots())
+                .image(touristPackage.getImage())
                 .build();
 
         return ResponseEntity.ok(touristPackageDTO);
     }
+
 
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody TouristPackageDTO touristPackageDTO) {
@@ -82,6 +87,7 @@ public class TouristPackageController {
                     .durationDays(touristPackageDTO.getDurationDays())
                     .packagePrice(touristPackageDTO.getPackagePrice())
                     .availableSpots(touristPackageDTO.getAvailableSpots())
+                    .image(touristPackageDTO.getImage())
                     .build();
 
             // Guardar la entidad
@@ -98,6 +104,7 @@ public class TouristPackageController {
                     .durationDays(touristPackage.getDurationDays())
                     .packagePrice(touristPackage.getPackagePrice())
                     .availableSpots(touristPackage.getAvailableSpots())
+                    .image(touristPackage.getImage())
                     .build();
 
             // Crear URI del nuevo recurso

@@ -31,6 +31,8 @@ public class TouristPackageDTO {
 
     private Integer availableSpots;
 
+    private String image;
+
 
 
 }
